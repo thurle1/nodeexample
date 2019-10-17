@@ -85,7 +85,9 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
             });
 
         });
-
+        app.get('/', function(req, res){
+            res.send('Hello World');
+        });
         app.post('/login', (request, response, next) => {
             var post_data = request.body;
 
