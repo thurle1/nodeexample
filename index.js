@@ -1,5 +1,5 @@
 var mongodb = require('mongodb');
-var ObjectID = mongodb.ObjectID
+var ObjectID = mongodb.ObjectID;
 var crypto = require('crypto');
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -29,11 +29,11 @@ function saltHashPassword(userPassword){
 
 function checkHashPassword(userPassword, salt){
     var passwordData = sha512(userPassword, salt);
-    return passwordData;
+    return passwordData.passwordHash;
 }
 
 var app = express();
-app.use(bodyParser.json);
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 var MongoClient = mongodb.MongoClient;
@@ -46,11 +46,11 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
     } else{
 
         //Register
-
         app.post('/register', (request, response, next) => {
             var post_data = request.body;
-
+            console.log(post_data);
             var plain_text_pass = post_data.password;
+            console.log(plain_text_pass);
             var hash_data = saltHashPassword(plain_text_pass);
 
             var password = hash_data.passwordHash;
@@ -94,7 +94,7 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
             
             var email = post_data.email;
             var userPassword = post_data.password;
-
+            console.log(userPassword);
 
             
 
@@ -110,9 +110,12 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
                     //check pass
                     db.collection('users')
                         .findOne({'email': email}, function(err, user){
+                            console.log(user);
                             var salt = user.salt;
                             var hashPass = checkHashPassword(userPassword, salt);
+                            console.log(hashPass);
                             var encryptPass = user.password;
+                            console.log(encryptPass);
                             if(hashPass == encryptPass){
                                 response.json('login success');
                                 console.log('login success');
@@ -129,6 +132,6 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
         //Start web server
         app.listen(3000, () => {
             console.log('connected to mongodb server, webservice running on port 3000');
-        })
+        });
     }
-})
+}); 
