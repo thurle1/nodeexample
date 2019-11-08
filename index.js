@@ -43,6 +43,7 @@ var url = 'mongodb+srv://thurle1:Ravens09@quizzard-wgpu5.mongodb.net/test?retryW
 MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
     if(err){
         console.log('unable to connect to mongo');
+        console.log(err);
     } else{
 
         //Register
@@ -58,12 +59,14 @@ MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
 
             var name = post_data.name;
             var email = post_data.email;
+            var userType = post_data.userType;
 
             var insertJSON = {
                 'email': email,
                 'password': password,
                 'salt': salt,
-                'name': name
+                'name': name,
+                'userType': userType
             };
 
             var db = client.db('quizzard');
