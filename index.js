@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 var MongoClient = mongodb.MongoClient;
 
-var url = 'mongodb+srv://thurle1:Ravens09@quizzard-wgpu5.mongodb.net/test?retryWrites=true&w=majority'
+var url = 'my Mongo URL'
 
 MongoClient.connect(url, {useNewUrlParser: true}, function(err, client){
     if(err){
